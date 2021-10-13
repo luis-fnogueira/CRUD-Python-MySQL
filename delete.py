@@ -1,8 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 import mysql.connector
-import datetime
-
 
 connection = mysql.connector.connect(
     host='seu_host',
@@ -14,19 +12,15 @@ connection = mysql.connector.connect(
 
 cursor = connection.cursor()
 
-sql = "INSERT INTO users (name, email, created) VALUES (%s, %s, %s)"
-data = (
-    'Primeiro usuário',
-    'primeirousuario@teste.com.br',
-    datetime.datetime.today()
-)
+sql = "DELETE FROM users WHERE id = %s"
+data = (2,)
 
 cursor.execute(sql, data)
 connection.commit()
 
-userid = cursor.lastrowid
+recordsaffected = cursor.rowcount
 
 cursor.close()
 connection.close()
 
-print("Foi cadastrado o novo usuário de ID: ", userid)
+print(recordsaffected, "registros excluídos")
